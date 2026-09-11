@@ -36,7 +36,7 @@ export const siteConfig = {
   siteUrl: "https://example.com",
 
   // Used for every mailto link, the contact form and the footer.
-  contactEmail: "alverix.dev0220@gmail.com",
+  contactEmail: "jimmy@orbion.bond",
 
   // Calendly scheduling link. Every "Book a Call" CTA launches this URL (embedded on desktop, new tab on phones).
   // The owner connects Google Calendar inside Calendly; the site never talks to Google directly.
