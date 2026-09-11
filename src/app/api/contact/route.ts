@@ -1,5 +1,6 @@
 import { siteConfig } from "@/data/site";
 import { CONTACT_ERRORS, formatContactMessage, validateContactPayload } from "@/lib/contact";
+import { verifyEmailDeliverability } from "@/lib/email-verification";
 
 /**
  * POST /api/contact — delivers a contact-form submission by email via Resend.
@@ -32,6 +33,10 @@ export async function POST(request: Request) {
   const result = validateContactPayload(body);
   if (!result.ok) return Response.json({ error: result.error }, { status: 400 });
 
+  // Reject addresses that cannot receive a reply (typos, throwaway inboxes, domains with no mail server).
+  const verdict = await verifyEmailDeliverability(result.payload.email);
+  if (!verdict.ok) return Response.json({ error: verdict.message, field: "email" }, { status: 422 });
+
   const { subject, text } = formatContactMessage(result.payload);
 
   try {
@@ -47,8 +52,9 @@ export async function POST(request: Request) {
       }),
     });
     if (!response.ok) {
-      // Log the status only — never the visitor's message.
-      console.error(`Resend rejected the contact email (HTTP ${response.status}).`);
+      // Log Resend's reason (e.g. unverified domain) — never the visitor's message.
+      const detail = (await response.json().catch(() => null)) as { message?: string } | null;
+      console.error(`Resend rejected the contact email (HTTP ${response.status}): ${detail?.message ?? "no details"}`);
       return Response.json({ error: CONTACT_ERRORS.delivery }, { status: 502 });
     }
   } catch (error) {

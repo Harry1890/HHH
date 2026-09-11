@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { projectTypes, siteConfig } from "@/data/site";
 import { MESSAGE_MAX_LENGTH, submitContact, type ContactPayload } from "@/lib/contact";
@@ -26,11 +26,13 @@ type Status =
   | { state: "sending" }
   | { state: "sent"; email: string }
   | { state: "mailto"; href: string }
+  | { state: "invalid"; field: "email"; message: string }
   | { state: "error"; message: string; mailto: string };
 
 export function ContactForm() {
   const [values, setValues] = useState<ContactPayload>(EMPTY);
   const [status, setStatus] = useState<Status>({ state: "idle" });
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const update =
     (field: keyof ContactPayload) =>
@@ -49,12 +51,17 @@ export function ContactForm() {
     } else if (result.ok) {
       setStatus({ state: "sent", email: values.email });
       setValues(EMPTY);
+    } else if (result.field === "email") {
+      // The server judged the address undeliverable; point the visitor at the field.
+      setStatus({ state: "invalid", field: "email", message: result.error });
+      emailRef.current?.focus();
     } else {
       setStatus({ state: "error", message: result.error, mailto: result.mailto });
     }
   };
 
   const sending = status.state === "sending";
+  const emailError = status.state === "invalid" ? status.message : null;
 
   return (
     <form
@@ -82,15 +89,26 @@ export function ContactForm() {
             Work email
           </label>
           <input
+            ref={emailRef}
             id="contact-email"
             name="email"
             type="email"
             autoComplete="email"
             required
             value={values.email}
-            onChange={update("email")}
-            className={fieldClass}
+            onChange={(event) => {
+              update("email")(event);
+              if (emailError) setStatus({ state: "idle" });
+            }}
+            aria-invalid={emailError ? true : undefined}
+            aria-describedby={emailError ? "contact-email-error" : undefined}
+            className={cn(fieldClass, emailError && "border-ink")}
           />
+          {emailError && (
+            <p id="contact-email-error" className="mt-1.5 text-[13px] leading-snug text-ink">
+              {emailError}
+            </p>
+          )}
         </div>
         <div>
           <label htmlFor="contact-company" className={labelClass}>

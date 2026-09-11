@@ -12,7 +12,7 @@ export interface ContactPayload {
 
 export type ContactResult =
   | { method: "api"; ok: true }
-  | { method: "api"; ok: false; error: string; mailto: string }
+  | { method: "api"; ok: false; error: string; mailto: string; field?: "email" }
   | { method: "mailto"; href: string };
 
 export const MESSAGE_MAX_LENGTH = 5000;
@@ -94,9 +94,12 @@ export async function submitContact(payload: ContactPayload, honeypot = ""): Pro
     if (response.ok) return { method: "api", ok: true };
     if (response.status === 503) return { method: "mailto", href: mailto };
 
-    const body = (await response.json().catch(() => null)) as { error?: string } | null;
-    const error = response.status === 400 && body?.error ? body.error : CONTACT_ERRORS.delivery;
-    return { method: "api", ok: false, error, mailto };
+    const body = (await response.json().catch(() => null)) as { error?: string; field?: "email" } | null;
+    // 4xx carries visitor-facing copy (and, for 422, the field to highlight); anything else is a delivery failure.
+    const rejected = (response.status === 400 || response.status === 422) && body?.error;
+    return rejected
+      ? { method: "api", ok: false, error: rejected, mailto, field: body?.field }
+      : { method: "api", ok: false, error: CONTACT_ERRORS.delivery, mailto };
   } catch {
     return { method: "api", ok: false, error: CONTACT_ERRORS.delivery, mailto };
   }

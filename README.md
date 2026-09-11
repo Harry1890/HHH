@@ -37,6 +37,12 @@ and `legalLinks` for the Privacy / Terms footer links.
   delivers it by email through Resend's REST API with the visitor's address as `reply_to`.
   If `RESEND_API_KEY` is not set the route answers 503 and the form falls back to a pre-filled
   `mailto:` link, so the site still works with no backend. See **Contact form delivery** below.
+- **Email validation** — before sending, `src/lib/email-verification.ts` rejects addresses that cannot
+  receive a reply: malformed addresses, throwaway inboxes (the `disposable-email-domains` list,
+  ~120k domains) and domains with no mail server (MX/A lookup over DNS-over-HTTPS, Node DNS as
+  fallback; inconclusive DNS never blocks a visitor). Rejections come back as `422` with a
+  `field: "email"` hint and show inline under the field. It cannot prove a specific mailbox exists —
+  add a verification API (Kickbox, ZeroBounce, Abstract, …) as a fourth step there if needed.
 - **Book a Call** — every CTA is a link to `siteConfig.calendlyUrl` (`src/components/booking/BookCallButton.tsx`).
   On viewports ≥ 768px a click opens `CalendlyBooking`, which mounts Calendly's official inline embed
   (`widget.js`, loaded on demand) inside the site's accessible modal; on phones, with modifier keys,
