@@ -21,7 +21,7 @@ All business identity lives in [`src/data/site.ts`](src/data/site.ts) (`siteConf
 
 | Field | Used for |
 | --- | --- |
-| `companyName` | Logo lockup, page titles, footer, JSON-LD, OG image (the mark itself lives in `components/layout/LogoMark.tsx` + `app/icon.svg`) |
+| `companyName` | Wordmark text, page titles, footer, JSON-LD, OG image |
 | `contactEmail` | Every `mailto:` link and the contact form |
 | `calendlyUrl` | Every "Book a Call" CTA (embedded scheduler on desktop, new tab on phones) |
 | `siteUrl` | Canonical URL, OpenGraph, `robots.txt` and `sitemap.xml` |
@@ -51,6 +51,13 @@ and `legalLinks` for the Privacy / Terms footer links.
   reminders, rescheduling and cancellation. Suggested Calendly setup: an event named
   "Discovery Call", 30 minutes, with Google Meet enabled. `src/lib/calendly.ts` holds the loader,
   the embed URL (brand colours, no GDPR banner) and the desktop/phone breakpoint.
+
+## Brand assets
+
+Source logo: `docs/brand/orbion-logo.png` (full lockup on dark). The site uses the orb only, composited on the
+ink-black tile: `public/brand/orbion-mark.png` (navbar/footer via `components/layout/LogoMark.tsx`, embedded in
+the OG image) plus `src/app/icon.png` (favicon) and `src/app/apple-icon.png`. To change the mark, replace those
+three PNGs — the wordmark next to it is plain text from `siteConfig.companyName`.
 
 ## Contact form delivery (Resend)
 

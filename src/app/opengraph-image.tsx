@@ -1,5 +1,6 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { LogoMark } from "@/components/layout/LogoMark";
 import { siteConfig } from "@/data/site";
 
 export const alt = `${siteConfig.companyName} — ${siteConfig.seoTitle}`;
@@ -7,7 +8,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /** Social share card generated at build time from `siteConfig`. */
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  // The OG renderer cannot use next/image; embed the mark tile directly.
+  const mark = await readFile(join(process.cwd(), "public/brand/orbion-mark.png"));
+  const markSrc = `data:image/png;base64,${mark.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -24,8 +29,11 @@ export default function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <LogoMark size={48} />
-          <div style={{ fontSize: 30, fontWeight: 600, letterSpacing: -0.5 }}>{siteConfig.companyName}</div>
+          {/* eslint-disable-next-line @next/next/no-img-element -- OG renderer, not the DOM */}
+          <img src={markSrc} width={48} height={48} alt="" style={{ borderRadius: 12 }} />
+          <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 6, textTransform: "uppercase" }}>
+            {siteConfig.companyName}
+          </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>

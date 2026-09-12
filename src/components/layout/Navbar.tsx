@@ -56,7 +56,7 @@ export function Navbar() {
               : "border-transparent bg-transparent",
           )}
         >
-          <Logo />
+          <Logo priority />
 
           <ul className="hidden items-center gap-1 lg:flex">
             {navigation.map((item) => (

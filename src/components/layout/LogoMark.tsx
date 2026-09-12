@@ -1,20 +1,29 @@
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import mark from "../../../public/brand/orbion-mark.png";
+
 interface LogoMarkProps {
-  /** Rendered size in px (the artwork is a 64×64 grid). */
+  /** Rendered size in px. */
   size?: number;
+  /** Preload — set on the above-the-fold instance (navbar). */
+  priority?: boolean;
   className?: string;
 }
 
 /**
- * Company mark: an orb with a satellite on its orbit — the "O" of Orbion.
- * Shared by the logo lockup and the social card; keep `app/icon.svg` in sync.
- * To use a real logo file instead, replace the SVG here and in icon.svg.
+ * Company mark: the Orbion orb on its black tile.
+ * Source artwork: docs/brand/orbion-logo.png; the tile is exported to public/brand/orbion-mark.png
+ * (also src/app/icon.png and apple-icon.png). Replace those files to change the mark.
  */
-export function LogoMark({ size = 28, className }: LogoMarkProps) {
+export function LogoMark({ size = 28, priority = false, className }: LogoMarkProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" className={className}>
-      <rect width="64" height="64" rx="14" fill="#111111" />
-      <circle cx="32" cy="33" r="13" fill="none" stroke="#FFFFFF" strokeWidth="5.5" />
-      <circle cx="42" cy="22" r="5.5" fill="#5C7CFF" stroke="#111111" strokeWidth="3" />
-    </svg>
+    <Image
+      src={mark}
+      alt=""
+      width={size}
+      height={size}
+      priority={priority}
+      className={cn("rounded-lg", className)}
+    />
   );
 }
