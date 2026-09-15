@@ -40,7 +40,7 @@ export const siteConfig = {
   contactEmail: "jimmy@orbion.bond",
 
   // Headquarters city. Shown on the Careers page and in structured data.
-  headquarters: "Huntsville, Alabama",
+  headquarters: "Paris, France",
 
   // Shown on the Careers page.
   coFounder: "Jimmy Smith",
