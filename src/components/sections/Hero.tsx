@@ -33,7 +33,7 @@ export function Hero() {
             </Reveal>
             <Reveal delay={0.24}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button href={`#${SECTION_IDS.contact}`} size="lg" arrow>
+                <Button href={`/#${SECTION_IDS.contact}`} size="lg" arrow>
                   Start a Project
                 </Button>
                 <BookCallButton variant="secondary" size="lg" />

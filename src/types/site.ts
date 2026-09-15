@@ -73,3 +73,13 @@ export interface FooterColumn {
   title: string;
   links: { label: string; href: string }[];
 }
+
+export interface JobPosting {
+  title: string;
+  location: string;
+  type: string;
+  department: string;
+  summary: string;
+  responsibilities: string[];
+  requirements: string[];
+}

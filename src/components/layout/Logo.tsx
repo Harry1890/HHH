@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LogoMark } from "@/components/layout/LogoMark";
 import { siteConfig } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -13,8 +14,8 @@ interface LogoProps {
 /** Logo lockup: the mark plus the company name from `siteConfig`. */
 export function Logo({ className, size = "sm", priority = false }: LogoProps) {
   return (
-    <a
-      href="#top"
+    <Link
+      href="/#top"
       aria-label={`${siteConfig.companyName} — back to top`}
       className={cn("inline-flex items-center gap-2.5 text-ink", className)}
     >
@@ -23,6 +24,6 @@ export function Logo({ className, size = "sm", priority = false }: LogoProps) {
       <span className={cn("font-semibold uppercase tracking-[0.2em]", size === "sm" ? "text-[14px]" : "text-[16px]")}>
         {siteConfig.companyName}
       </span>
-    </a>
+    </Link>
   );
 }

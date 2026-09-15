@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Logo } from "@/components/layout/Logo";
 import { BookCallButton } from "@/components/booking/BookCallButton";
@@ -28,9 +29,9 @@ export function Footer() {
               <ul className="mt-5 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="text-[15px] text-ink/80 transition-colors hover:text-ink">
+                    <Link href={link.href} className="text-[15px] text-ink/80 transition-colors hover:text-ink">
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BookCallButton } from "@/components/booking/BookCallButton";
 import { Logo } from "@/components/layout/Logo";
@@ -61,18 +62,18 @@ export function Navbar() {
           <ul className="hidden items-center gap-1 lg:flex">
             {navigation.map((item) => (
               <li key={item.href}>
-                <a
+                <Link
                   href={item.href}
                   className="rounded-full px-3.5 py-2 text-[15px] font-medium text-ink/75 transition-colors hover:bg-ink/5 hover:text-ink"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
 
           <div className="hidden items-center gap-1 lg:flex">
-            <Button href="#contact" variant="ghost">
+            <Button href="/#contact" variant="ghost">
               Contact
             </Button>
             <BookCallButton arrow size="md" />
@@ -110,27 +111,27 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: reduce ? 0 : 0.05 + i * 0.04, duration: reduce ? 0 : 0.3 }}
                   >
-                    <a
+                    <Link
                       href={item.href}
                       onClick={closeMenu}
                       className="block py-5 text-[28px] font-medium tracking-[-0.03em] text-ink"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </motion.li>
                 ))}
                 <li>
-                  <a
-                    href="#contact"
+                  <Link
+                    href="/#contact"
                     onClick={closeMenu}
                     className="block py-5 text-[28px] font-medium tracking-[-0.03em] text-ink"
                   >
                     Contact
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <div className="mt-auto flex flex-col gap-3 pt-8">
-                <Button href="#contact" variant="secondary" size="lg" onClick={closeMenu}>
+                <Button href="/#contact" variant="secondary" size="lg" onClick={closeMenu}>
                   Start a Project
                 </Button>
                 <BookCallButton size="lg" arrow onClick={closeMenu} />

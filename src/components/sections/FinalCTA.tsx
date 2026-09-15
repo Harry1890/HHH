@@ -52,7 +52,7 @@ export function FinalCTA() {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button href={`#${SECTION_IDS.contact}`} size="lg" arrow>
+              <Button href={`/#${SECTION_IDS.contact}`} size="lg" arrow>
                 Start a Project
               </Button>
               <BookCallButton variant="secondary" size="lg" />

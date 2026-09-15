@@ -4,6 +4,7 @@ import type {
   EngagementModel,
   FAQItem,
   FooterColumn,
+  JobPosting,
   NavItem,
   ProcessStep,
   Region,
@@ -32,11 +33,17 @@ export const siteConfig = {
   seoDescription:
     "We design and build AI agents, intelligent products, automation systems, AI platforms and modern software for companies worldwide.",
 
-  // TODO: replace with the production domain (used for canonical, OpenGraph and sitemap URLs).
-  siteUrl: "https://example.com",
+  // Production domain — used for canonical URLs, OpenGraph/Twitter tags and the sitemap.
+  siteUrl: "https://orbion.bond",
 
   // Used for every mailto link, the contact form and the footer.
   contactEmail: "jimmy@orbion.bond",
+
+  // Headquarters city. Shown on the Careers page and in structured data.
+  headquarters: "Huntsville, Alabama",
+
+  // Shown on the Careers page.
+  coFounder: "Jimmy Smith",
 
   // Calendly scheduling link. Every "Book a Call" CTA launches this URL (embedded on desktop, new tab on phones).
   // The owner connects Google Calendar inside Calendly; the site never talks to Google directly.
@@ -50,12 +57,13 @@ export const siteConfig = {
   },
 } as const;
 
+// Home-page-relative ("/#…") so these still resolve correctly from other routes (e.g. /careers).
 export const navigation: NavItem[] = [
-  { label: "Services", href: "#services" },
-  { label: "Solutions", href: "#solutions" },
-  { label: "Process", href: "#process" },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Solutions", href: "/#solutions" },
+  { label: "Process", href: "/#process" },
+  { label: "Work", href: "/#work" },
+  { label: "About", href: "/#about" },
 ];
 
 export const tickerItems = [
@@ -427,6 +435,29 @@ export const faqItems: FAQItem[] = [
   },
 ];
 
+export const openRoles: JobPosting[] = [
+  {
+    title: "AI Engineer",
+    location: `${siteConfig.headquarters} (Remote-friendly)`,
+    type: "Full-time",
+    department: "Engineering",
+    summary:
+      "Design and build the agent systems, retrieval pipelines and production infrastructure behind our clients' AI products — from architecture through deployment.",
+    responsibilities: [
+      "Design and build AI agent systems, RAG pipelines and applied AI products for clients",
+      "Take systems from prototype to production: evaluation, observability, guardrails and reliability",
+      "Work directly with clients' engineering teams to integrate with their existing codebase and infrastructure",
+      "Contribute to architecture decisions across models, retrieval, tooling and cloud infrastructure",
+    ],
+    requirements: [
+      "Experience shipping production software, ideally including LLM-based systems or agents",
+      "Strong grasp of API design, distributed systems and cloud infrastructure (AWS, Docker, Kubernetes)",
+      "Comfortable owning a problem from discovery through production, not just a notebook prototype",
+      "Clear written communication — much of our collaboration with clients and each other happens async",
+    ],
+  },
+];
+
 export const projectTypes = [
   "AI Agent System",
   "Applied AI Product",
@@ -439,25 +470,27 @@ export const projectTypes = [
 
 export type ProjectType = (typeof projectTypes)[number];
 
+// Home-page-relative ("/#…") so these still resolve correctly from other routes (e.g. /careers).
 export const footerColumns: FooterColumn[] = [
   {
     title: "Services",
     links: [
-      { label: "AI Agent Systems", href: "#services" },
-      { label: "Applied AI", href: "#services" },
-      { label: "Automation", href: "#services" },
-      { label: "AI Platforms", href: "#services" },
-      { label: "Software Engineering", href: "#services" },
-      { label: "AI Strategy", href: "#services" },
+      { label: "AI Agent Systems", href: "/#services" },
+      { label: "Applied AI", href: "/#services" },
+      { label: "Automation", href: "/#services" },
+      { label: "AI Platforms", href: "/#services" },
+      { label: "Software Engineering", href: "/#services" },
+      { label: "AI Strategy", href: "/#services" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Work", href: "#work" },
-      { label: "Process", href: "#process" },
-      { label: "Contact", href: "#contact" },
+      { label: "About", href: "/#about" },
+      { label: "Work", href: "/#work" },
+      { label: "Process", href: "/#process" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/#contact" },
     ],
   },
 ];
