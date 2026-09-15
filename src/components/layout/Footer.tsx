@@ -55,6 +55,9 @@ export function Footer() {
               ))}
             </ul>
             <p className="mt-8 text-[14px] text-muted">{siteConfig.locationMessage}</p>
+            <p className="mt-2 text-[14px] text-muted">
+              Headquartered in {siteConfig.headquarters}. Founded by {siteConfig.coFounder}.
+            </p>
           </nav>
         </div>
 

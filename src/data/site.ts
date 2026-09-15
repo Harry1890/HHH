@@ -34,7 +34,11 @@ export const siteConfig = {
     "We design and build AI agents, intelligent products, automation systems, AI platforms and modern software for companies worldwide.",
 
   // Production domain — used for canonical URLs, OpenGraph/Twitter tags and the sitemap.
-  siteUrl: "https://orbion.bond",
+  // Must be the domain that actually serves the site (not one that redirects to it): Vercel is
+  // configured with "orbion.bond" (no www) as a redirect to "www.orbion.bond", and link-preview
+  // crawlers (Facebook, LinkedIn) don't reliably follow that redirect when fetching og:image, so
+  // pointing this at the apex domain left every social preview blank.
+  siteUrl: "https://www.orbion.bond",
 
   // Used for every mailto link, the contact form and the footer.
   contactEmail: "jimmy@orbion.bond",
